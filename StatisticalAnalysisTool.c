@@ -15,7 +15,7 @@
 #include <errno.h>
 // Include the limits.h library.
 #include <limits.h>
-// Define a type of variable named "error" to keep track of errors. It will be stored as a one-byte integer that will be either "1" or "0".
+// Define a type of variable named "error" to keep track of errors. It will store a one-byte integer that will be either "1" or "0".
 typedef unsigned char error;
 // Define a data structure named "node" that can be used to make linked lists.
 struct node {
@@ -59,7 +59,7 @@ int readInt(error *rangeError) {
 	// Check if the user entered a value that is out of range.
 	// If the user entered a value that is out of range...
 		if (!fgets(buffer, sizeof buffer, stdin)) {
-			// Change the value at the address pointed to by the pointer named "rangeError" to 1.
+			// Change the value at the memory address pointed to by the pointer named "rangeError" to 1.
 			*rangeError = 1;
 			// Return 0.
 			return 0;
@@ -72,8 +72,9 @@ int readInt(error *rangeError) {
 			printf("Invalid input! Please enter an integer: ");
 			continue;
 		}
-	// Validate the user input to help ensure that it is not out of range.
+	// If the user input is out of range, make the value in the error variable stored at the memory address pointed to the pointer named "rangeError" equal to 1.
 		*rangeError = (input < INT_MIN || input > INT_MAX);
+		// Return the value of the variable named "input" as an integer.
 		return (int)input;
 	}
 }
@@ -84,7 +85,7 @@ double readDouble(void) {
 	char buffer[1024];
 	// Loop through the following lines of code...
 	while (1) {
-	// Read the double value entered by the user and check if it is valid. If the user input is invalid, print
+	// Read the double value entered by the user and validate it.
 		if (!fgets(buffer, sizeof buffer, stdin)) {
 			fprintf(stderr, "Input error!\n");
 			return 0.0;
@@ -901,11 +902,13 @@ int readCSVRow (double dataPointsX[], char csvString[], int Size) {
 		// Create an integer variable named "Decimal" with an initial value equal to the value of the variable named "Count".
 		int Decimal = Count;
 		// Search the characters read from the string named "csvString" for a decimal point.
+		// Store the location of the decimal point in the integer variable named "Decimal".
 		for (Decimal; Decimal > 0; Decimal--) {
 			if (csvString[Decimal] == '.') {
 				break;
 			}
 		}
+		// Increment the value of the integer variable named "count" by 1.
 		count++;
 		// Convert multiply the value of the variable named "num" by the value of the variable named "sign" and store the result in the variable named "num".
 		num = num*sign;
