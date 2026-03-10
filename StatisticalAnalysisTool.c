@@ -15,7 +15,7 @@
 #include <errno.h>
 // Include the limits.h library.
 #include <limits.h>
-// Define a type of variable named "error" to keep track of errors. It will store a one byte integer.
+// Define a type of variable named "error" to keep track of errors. It will be stored as a one-byte integer that will be either "1" or "0".
 typedef unsigned char error;
 // Define a data structure named "node" that can be used to make linked lists.
 struct node {
