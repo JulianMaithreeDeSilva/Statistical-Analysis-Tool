@@ -50,7 +50,7 @@ void readString(char string[], int size) {
 	for (int i = count; i < size; i++) {
 		string[i] = '\0';
 	}
-	// Free the memory allocated for the string named input.
+	// Free the memory allocated for the string named "input".
 	free(input);
 }
 // Create a function to read an integer entered by the user.
@@ -62,7 +62,7 @@ int readInt(error *rangeError) {
 	// Check if the user entered a value that is out of range.
 	// If the user entered a value that is out of range...
 		if (!fgets(buffer, sizeof buffer, stdin)) {
-			// Change the value at the memory address pointed to by the pointer named "rangeError" to 1.
+			// Change the value at the address pointed to by the pointer named "rangeError" to 1.
 			*rangeError = 1;
 			// Return 0.
 			return 0;
@@ -70,12 +70,12 @@ int readInt(error *rangeError) {
 		char *end;
 		errno = 0;
 		long input = strtol(buffer, &end, 10);
-	// If the user input something that is not a valid integer, print to the console "Invalid input! Please enter an integer: ".
+		// If the user input something that is not a valid integer, print to the console "Invalid input! Please enter an integer: ".
 		if (end == buffer || errno == ERANGE) {
 			printf("Invalid input! Please enter an integer: ");
 			continue;
 		}
-	// If the user input is out of range, make the value in the error variable stored at the memory address pointed to the pointer named "rangeError" equal to 1.
+		// If the user input is out of range, make the value in the error variable stored at the memory address pointed to the pointer named "rangeError" equal to 1.
 		*rangeError = (input < INT_MIN || input > INT_MAX);
 		// Return the value of the variable named "input" as an integer.
 		return (int)input;
@@ -151,7 +151,7 @@ void quadraticAnalysis() {
 	// Print the third term of the quadratic equation for the parabula to the console.
 	if (c < 0) {
 		printf("- %lf.",-c);
-	} else if (b > 0) {
+	} else if (c > 0) {
 		printf("+ %lf.",c);
 	}
 	// Move the cursor to the next line.
