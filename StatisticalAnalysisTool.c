@@ -719,7 +719,7 @@ void numericalAnalysis (double dataPoints[], int numberOfDataPoints) {
 	printf("Mode: %lf\n", Mode);
 	// Print to the console "Average: " followed by the value stored in "Average". Then, enter the cursor to the next line.
 	printf("Average: %lf\n", Average);
-	// Print to the console "Maximum Deviation from Median: +/-" followed by the value stored in "maxUncertainty".  Then, enter the cursor to the next line.
+	// Print to the console "Maximum Deviation from Median:" followed by the value stored in "maxUncertainty".  Then, enter the cursor to the next line.
 	printf("Maximum Deviation from Median: %lf\n", maxDeviation);
 	// Print to the console "Range: " followed by the value stored in "range".  Then, enter the cursor to the next line.
 	printf("Range: %lf\n", range);
@@ -810,16 +810,14 @@ void numericalAnalysis (double dataPoints[], int numberOfDataPoints) {
 			// Print "Standard Deviation: ", followed by the value stored in the variable named "standardDeviation", followed by the character from the enter key to the file pointed to by "fileName".
 			fprintf(fileName, "Standard Deviation: %lf\n", standardDeviation);
 			// Loop through the entire array named "dataPoints" and count the number of times each element occurs. For each element, divide the result by the total number of elements in the array. Then, print to the file point to by the variable named "fileName": "The probability of ", followed by the specific element, followed by " is ", followed by the quotient calculated previously, followed by the character from the "enter" key. Then, move onto the next element.
-			for (int i = 0; i < numberOfDataPoints; i++) {
-			int Count = 1;
-			while (dataPoints[i+1] == dataPoints[i]) {
-				Count++;
-				i++;
+			for (int i = 0; i < numberOfDataPoints;) {
+				double num = dataPoints[i];
+				int Count = numberOfOccurrences(dataPoints,num,numberOfDataPoints);
+				fprintf(fileName,"The probability of %lf is %lf.\n", dataPoints[i], (double)Count/(double)numberOfDataPoints);
+				i += Count;
 			}
-			fprintf(fileName,"The probability of %lf is %lf.\n", dataPoints[i], (double)Count/(double)numberOfDataPoints);
-		}
-		// Close the file pointed to by "fileName".
-		fclose(fileName);
+			// Close the file pointed to by "fileName".
+			fclose(fileName);
 		}
 	}
 }
