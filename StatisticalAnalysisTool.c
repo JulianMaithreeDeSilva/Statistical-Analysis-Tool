@@ -538,54 +538,48 @@ void csvwrite(char filePath[], double Values[], int size, int Size) {
 	}
 }
 // Create a function to sort arrays of double values. The function has two arguments. One argument is an array of double values named "array" and the second is an integer variable named "size", which is the size of the array.
-void sort(double array[], int size) {
-	// If the integer variable named "size" is greater than 1...
-	if (size > 1) {
-		// Compute size/2 and store the result in an integer variable named subsize1.
-		int subsize1 = size/2;
-		// Compute size/2 + size%2 and store the result in an integer variable named subsize2.
-		int subsize2 = size/2 + size%2;
-		// Create a pointer named "subarray1" that points to the begining of the array named "array".
-		double* subarray1 = array;
-		// Create a pointer named "subarray2" that points to the second portion of the array named "array".
-		double* subarray2 = array + subsize1;
-		// Sort the values in the subarray named "subarray1".
-		sort(subarray1, subsize1);
-		// Sort the values in the subarray named "subarray2".
-		sort(subarray2, subsize2);
-		// Dynamically allocate memory for a new array of double values named "temp" with a length equal to the length of the array named "array".
-		double* temp = (double*)(malloc(size*sizeof(double)));
-		// If the memory allocation failed, retry allocating memory for the array named "temp" until memory is successfully allocated.
-		while (temp == NULL) {
-			temp = (double*)(malloc(size*sizeof(double)));
-		}
-		// Merge subarray1 with subbarray2 while maintaining the order of the values and store the result in the array named "temp".
-		// Create two integer variables named "index1" and "index2". Initialize their value to zero.
-		int index1 = 0;
-		int index2 = 0;
-		while ((index1 < subsize1) && (index2 < subsize2)) {
-			// While the value of the variable named "index1" is less than the value of the variable named "subsize1" and either the value of the variable named "index2" is equal to the value of the variable named "subsize2" or the value stored in the array named "subarray1" at the index given by the variable named "index1" is less than or equal to the value stored in the array named "subarray2" at the index given by the variable named "index2"...
-			while ((index1 < subsize1) && ((index2 == subsize2) || (subarray1[index1] <= subarray2[index2]))) {
-				// Copy the value stored in the array named "subarray1" at the index given by the variable named "index1" into the array named "temp" at the index given by adding the values of the variables named "index1" and "index2".
-				temp[index1 + index2] = subarray1[index1];
-				// Increase the value of the variable named "index1" by 1.
-				index1++;
-			}
-			// While the value of the variable named "index2" is less than the value of the variable named "subsize2" and either the value of the variable named "index1" is equal to the value of the variable named "subsize1" or the value stored in the array named "subarray2" at the index given by the variable named "index2" is less than or equal to the value stored in the array named "subarray1" at the index given by the variable named "index1"...
-			while ((index2 < subsize2) && ((index1 == subsize1) || (subarray2[index2] <= subarray1[index1]))) {
-				// Copy the value stored in the array named "subarray2" at the index given by the variable named "index2" into the array named "temp" at the index given by adding the values of the variables named "index1" and "index2".
-				temp[index1 + index2] = subarray2[index2];
-				// Increase the value of the variable named "index2" by 1.
-				index2++;
-			}
-		}
-		// Copy the values from the array named "temp" into the array named "array".
-		for (int i = 0; i < size; i++) {
-			array[i] = temp[i];
-		}
-		// Free the memory that was allocated for the array named "temp".
-		free(temp);
-	}
+// This sorting code was modified after decompilation to support a double array instead of an integer array.
+// An unnecessary pointer was removed.
+void sort(double *r2, int r3) {
+    int r4, r5, r6;
+
+    if (1 < r3) {
+        r4 = r3 / 2;
+        r6 = r3 - (r4 * 2);
+        r5 = r4 + r6;
+        
+        int size1 = r5;
+        int size2 = r4;
+
+        // Merge-like phase using stack allocation simulation
+        double *temp_stack = (double*)malloc(r3 * sizeof(double));
+        // Recursive calls corresponding to the assembly logic
+        // (Note: exact semantics depend on the calling convention of the original Nios II assembly)
+        sort(r2, size1);
+        // r2 and r3 adjustments abstracted for standard C execution
+        double *p1 = r2;
+        double *p2 = r2 + size1; // approximation of second half offset
+	sort(p2, size2);
+        int sp_idx = 0;
+
+        // Simplified representation of the merge loops
+        // The original assembly manually manipulates the stack pointer as a backing store for merging.
+        while (sp_idx < r3) {
+            // Placeholder for the complex conditional merge logic in assembly
+            if (p1 < r2 + size1 && (p2 >= r2 + r3 || *p1 <= *p2)) {
+                temp_stack[sp_idx++] = *p1++;
+            } else {
+                temp_stack[sp_idx++] = *p2++;
+            }
+        }
+
+        // Copy back
+        for (int i = 0; i < r3; i++) {
+            r2[i] = temp_stack[i];
+        }
+
+        free(temp_stack);
+    }
 }
 // Create a function that return an integer to find the number of occurrences of a number in a double array. The has three argument. The first argument is an array of double variables named "Array", the second argument is a double variable named "num" which is the number that is being searched for, and the third argument is an integer variable named "size", which is the size of the array.
 int numberOfOccurrences(double Array[], double num, int size) {
