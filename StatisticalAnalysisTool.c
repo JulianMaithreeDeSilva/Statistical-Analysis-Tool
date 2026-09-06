@@ -538,47 +538,38 @@ void csvwrite(char filePath[], double Values[], int size, int Size) {
 	}
 }
 // Create a function to sort arrays of double values. The function has two arguments. One argument is an array of double values named "array" and the second is an integer variable named "size", which is the size of the array.
-// This sorting code was modified after decompilation to support a double array instead of an integer array.
-// An unnecessary pointer was removed.
-void sort(double *r2, int r3) {
-    int r4, r5, r6;
-
-    if (1 < r3) {
-        r4 = r3 / 2;
-        r6 = r3 - (r4 * 2);
-        r5 = r4 + r6;
-        
-        int size1 = r5;
-        int size2 = r4;
-
-        // Merge-like phase using stack allocation simulation
-        double *temp_stack = (double*)malloc(r3 * sizeof(double));
-        // Recursive calls corresponding to the assembly logic
-        // (Note: exact semantics depend on the calling convention of the original Nios II assembly)
-        sort(r2, size1);
-        // r2 and r3 adjustments abstracted for standard C execution
-        double *p1 = r2;
-        double *p2 = r2 + size1; // approximation of second half offset
-	sort(p2, size2);
-        int sp_idx = 0;
-
-        // Simplified representation of the merge loops
-        // The original assembly manually manipulates the stack pointer as a backing store for merging.
-        while (sp_idx < r3) {
-            // Placeholder for the complex conditional merge logic in assembly
-            if (p1 < r2 + size1 && (p2 >= r2 + r3 || *p1 <= *p2)) {
-                temp_stack[sp_idx++] = *p1++;
-            } else {
-                temp_stack[sp_idx++] = *p2++;
-            }
-        }
-
-        // Copy back
-        for (int i = 0; i < r3; i++) {
-            r2[i] = temp_stack[i];
-        }
-
-        free(temp_stack);
+void sort(double array[], int size) {
+    // If the value of the variable named "size" is greater than 1...
+    if (size > 1) {
+	// Split the array into two subarrays.
+        int size1 = size/2+size%2;
+        int size2 = size/2;
+        double *subarray1 = array;
+        double *subarray2 = array + size1;
+	// Sort the two subarrays.
+	sort(subarray1, size1);
+	sort(subarray2, size2);
+	// Allocate memory for a temporary array of double values named "temp".
+        double *temp = (double*)malloc(size*sizeof(double));
+	// If the memory allocation failed, retry allocating memory for the double values named "temp" until memory is sucessfully allocated.
+	while (temp==NULL) {
+		temp = (double*)malloc(size*sizeof(double));
+	}
+	// Merge the two sorted subarrays into a single sorted array stored in the array of double values named "temp".
+	int index = 0;
+	while (index < size) {
+		if (subarray1 < array + size1 && (subarray2 >= array + size || *subarray1 <= *subarray2)) {
+			temp[index++] = *subarray1++;
+		} else {
+			temp[index++] = *subarray2++;
+		}
+	}
+	// Copy the array of double values named "temp" into the array of double values named "array".
+	for (int i = 0; i < size; i++) {
+		array[i] = temp[i];
+	}
+	// Free the memory that was allocated for the array named "temp".
+	free(temp);
     }
 }
 // Create a function that return an integer to find the number of occurrences of a number in a double array. The has three argument. The first argument is an array of double variables named "Array", the second argument is a double variable named "num" which is the number that is being searched for, and the third argument is an integer variable named "size", which is the size of the array.
