@@ -538,7 +538,6 @@ void csvwrite(char filePath[], double Values[], int size, int Size) {
 	}
 }
 // Create a function to sort arrays of double values. The function has two arguments. One argument is an array of double values named "array" and the second is an integer variable named "size", which is the size of the array.
-// Because my original sorting code for this program had bugs, I took working NIOS II assembly code that I had written to sort an array of integers, decompiled it into portable C code, and modified it to sort an array of double values instead of an array of integer values.
 void sort(double array[], int size) {
     // If the value of the variable named "size" is greater than 1...
     if (size > 1) {
@@ -552,7 +551,7 @@ void sort(double array[], int size) {
 	sort(subarray2, size2);
 	// Allocate memory for a temporary array of double values named "temp".
         double *temp = (double*)malloc(size*sizeof(double));
-	// If the memory allocation failed, retry allocating memory for the double values named "temp" until memory is sucessfully allocated.
+	// If the memory allocation failed, retry allocating memory for the array of double values named "temp" until memory is sucessfully allocated.
 	while (temp==NULL) {
 		temp = (double*)malloc(size*sizeof(double));
 	}
